@@ -191,7 +191,7 @@ export default function TransactionModal({ isOpen, onClose, onSave }: Transactio
             <div>
               <label className="block text-sm font-medium text-slate-300 mb-1">Category</label>
               {isAddingCategory ? (
-                <div className="flex gap-2">
+                <div className="flex flex-col gap-2">
                   <input 
                     type="text" 
                     autoFocus
@@ -199,14 +199,16 @@ export default function TransactionModal({ isOpen, onClose, onSave }: Transactio
                     value={newCategoryName}
                     onChange={(e) => setNewCategoryName(e.target.value)}
                     onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); saveNewCategory(); } }}
-                    className="flex-1 px-3 py-2.5 border border-emerald-500 bg-slate-800/50 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-emerald-500 text-white placeholder:text-slate-500 text-sm"
+                    className="w-full px-3 py-2 border border-emerald-500 bg-slate-800/50 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-emerald-500 text-white placeholder:text-slate-500 text-sm"
                   />
-                  <button type="button" onClick={saveNewCategory} className="px-3 py-2.5 bg-emerald-500 hover:bg-emerald-600 text-white rounded-lg transition-colors text-sm font-medium">
-                    Add
-                  </button>
-                  <button type="button" onClick={() => setIsAddingCategory(false)} className="px-3 py-2.5 bg-slate-700 hover:bg-slate-600 text-white rounded-lg transition-colors flex items-center justify-center">
-                    <X size={16} />
-                  </button>
+                  <div className="flex gap-2">
+                    <button type="button" onClick={saveNewCategory} className="flex-1 py-2 bg-emerald-500 hover:bg-emerald-600 text-white rounded-lg transition-colors text-sm font-medium">
+                      Add
+                    </button>
+                    <button type="button" onClick={() => setIsAddingCategory(false)} className="px-3 py-2 bg-slate-700 hover:bg-slate-600 text-white rounded-lg transition-colors flex items-center justify-center">
+                      <X size={16} />
+                    </button>
+                  </div>
                 </div>
               ) : (
                 <div className="relative">
@@ -232,7 +234,7 @@ export default function TransactionModal({ isOpen, onClose, onSave }: Transactio
             <div>
               <label className="block text-sm font-medium text-slate-300 mb-1">Wallet</label>
               {isAddingWallet ? (
-                <div className="flex gap-2">
+                <div className="flex flex-col gap-2">
                   <input 
                     type="text" 
                     autoFocus
@@ -240,14 +242,16 @@ export default function TransactionModal({ isOpen, onClose, onSave }: Transactio
                     value={newWalletName}
                     onChange={(e) => setNewWalletName(e.target.value)}
                     onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); saveNewWallet(); } }}
-                    className="flex-1 px-3 py-2.5 border border-emerald-500 bg-slate-800/50 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-emerald-500 text-white placeholder:text-slate-500 text-sm"
+                    className="w-full px-3 py-2 border border-emerald-500 bg-slate-800/50 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-emerald-500 text-white placeholder:text-slate-500 text-sm"
                   />
-                  <button type="button" onClick={saveNewWallet} className="px-3 py-2.5 bg-emerald-500 hover:bg-emerald-600 text-white rounded-lg transition-colors text-sm font-medium">
-                    Add
-                  </button>
-                  <button type="button" onClick={() => setIsAddingWallet(false)} className="px-3 py-2.5 bg-slate-700 hover:bg-slate-600 text-white rounded-lg transition-colors flex items-center justify-center">
-                    <X size={16} />
-                  </button>
+                  <div className="flex gap-2">
+                    <button type="button" onClick={saveNewWallet} className="flex-1 py-2 bg-emerald-500 hover:bg-emerald-600 text-white rounded-lg transition-colors text-sm font-medium">
+                      Add
+                    </button>
+                    <button type="button" onClick={() => setIsAddingWallet(false)} className="px-3 py-2 bg-slate-700 hover:bg-slate-600 text-white rounded-lg transition-colors flex items-center justify-center">
+                      <X size={16} />
+                    </button>
+                  </div>
                 </div>
               ) : (
                 <div className="relative">
