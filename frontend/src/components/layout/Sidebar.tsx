@@ -16,7 +16,7 @@ interface SidebarProps {
   setIsOpen?: (open: boolean) => void;
 }
 
-export default function Sidebar({ isOpen = true, setIsOpen }: SidebarProps) {
+export default function Sidebar({ isOpen = true }: SidebarProps) {
   const location = useLocation();
   const { darkMode, t } = useTheme();
 
