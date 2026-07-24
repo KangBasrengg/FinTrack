@@ -1,0 +1,15 @@
+{
+  "version": 2,
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "/api/index.go"
+    }
+  ],
+  "crons": [
+    {
+      "path": "/api/trigger-cron",
+      "schedule": "0 0 * * *"
+    }
+  ]
+}

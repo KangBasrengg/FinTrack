@@ -15,6 +15,7 @@ import (
 type CronService interface {
 	Start()
 	Stop()
+	ProcessRecurringTransactions()
 }
 
 type cronService struct {
