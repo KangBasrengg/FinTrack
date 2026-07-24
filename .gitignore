@@ -1,0 +1,9 @@
+node_modules/
+.env
+dist/
+build/
+*.exe
+*.zip
+backend/fintrack.exe
+backend/server.exe
+.DS_Store
