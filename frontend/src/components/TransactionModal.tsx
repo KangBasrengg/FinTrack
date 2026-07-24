@@ -19,6 +19,12 @@ export default function TransactionModal({ isOpen, onClose, onSave }: Transactio
   const [categories, setCategories] = useState<any[]>([]);
   const [wallets, setWallets] = useState<any[]>([]);
 
+  const [newCategoryName, setNewCategoryName] = useState('');
+  const [isAddingCategory, setIsAddingCategory] = useState(false);
+
+  const [newWalletName, setNewWalletName] = useState('');
+  const [isAddingWallet, setIsAddingWallet] = useState(false);
+
   useEffect(() => {
     if (isOpen) {
       // Fetch wallets
@@ -42,52 +48,70 @@ export default function TransactionModal({ isOpen, onClose, onSave }: Transactio
 
   if (!isOpen) return null;
 
-  const handleCategoryChange = async (e: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const val = e.target.value;
     if (val === 'ADD_NEW') {
-      const name = window.prompt("Enter new category name:");
-      if (name) {
-        try {
-          const res = await api.post('/categories', {
-            name,
-            type: type === 'income' ? 'Income' : 'Expense',
-            icon: 'ShoppingBag', // Default icon
-            color: 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' // Default color
-          });
-          const newCat = res.data.data;
-          setCategories([...categories, newCat]);
-          setCategory(newCat.id);
-        } catch (err) {
-          console.error(err);
-          alert("Failed to create category");
-        }
-      }
+      setIsAddingCategory(true);
+      setCategory('');
     } else {
       setCategory(val);
     }
   };
 
-  const handleWalletChange = async (e: React.ChangeEvent<HTMLSelectElement>) => {
+  const saveNewCategory = async () => {
+    if (!newCategoryName.trim()) {
+      setIsAddingCategory(false);
+      return;
+    }
+    try {
+      const res = await api.post('/categories', {
+        name: newCategoryName,
+        type: type === 'income' ? 'Income' : 'Expense',
+        icon: 'ShoppingBag',
+        color: 'bg-emerald-500/20 text-emerald-400'
+      });
+      const newCat = res.data.data;
+      setCategories([...categories, newCat]);
+      setCategory(newCat.id);
+    } catch (err) {
+      console.error(err);
+      alert("Failed to create category");
+    } finally {
+      setIsAddingCategory(false);
+      setNewCategoryName('');
+    }
+  };
+
+  const handleWalletChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const val = e.target.value;
     if (val === 'ADD_NEW') {
-      const name = window.prompt("Enter new wallet name:");
-      if (name) {
-        try {
-          const res = await api.post('/wallets', {
-            name,
-            type: 'Cash', // Default type
-            balance: 0
-          });
-          const newWallet = res.data.data;
-          setWallets([...wallets, newWallet]);
-          setWallet(newWallet.id);
-        } catch (err) {
-          console.error(err);
-          alert("Failed to create wallet");
-        }
-      }
+      setIsAddingWallet(true);
+      setWallet('');
     } else {
       setWallet(val);
+    }
+  };
+
+  const saveNewWallet = async () => {
+    if (!newWalletName.trim()) {
+      setIsAddingWallet(false);
+      return;
+    }
+    try {
+      const res = await api.post('/wallets', {
+        name: newWalletName,
+        type: 'Cash',
+        balance: 0
+      });
+      const newWallet = res.data.data;
+      setWallets([...wallets, newWallet]);
+      setWallet(newWallet.id);
+    } catch (err) {
+      console.error(err);
+      alert("Failed to create wallet");
+    } finally {
+      setIsAddingWallet(false);
+      setNewWalletName('');
     }
   };
 
@@ -166,44 +190,84 @@ export default function TransactionModal({ isOpen, onClose, onSave }: Transactio
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-medium text-slate-300 mb-1">Category</label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Tags size={16} className="text-slate-500" />
+              {isAddingCategory ? (
+                <div className="flex gap-2">
+                  <input 
+                    type="text" 
+                    autoFocus
+                    placeholder="New category name..."
+                    value={newCategoryName}
+                    onChange={(e) => setNewCategoryName(e.target.value)}
+                    onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); saveNewCategory(); } }}
+                    className="flex-1 px-3 py-2.5 border border-emerald-500 bg-slate-800/50 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-emerald-500 text-white placeholder:text-slate-500 text-sm"
+                  />
+                  <button type="button" onClick={saveNewCategory} className="px-3 py-2.5 bg-emerald-500 hover:bg-emerald-600 text-white rounded-lg transition-colors text-sm font-medium">
+                    Add
+                  </button>
+                  <button type="button" onClick={() => setIsAddingCategory(false)} className="px-3 py-2.5 bg-slate-700 hover:bg-slate-600 text-white rounded-lg transition-colors flex items-center justify-center">
+                    <X size={16} />
+                  </button>
                 </div>
-                <select
-                  required
-                  value={category}
-                  onChange={handleCategoryChange}
-                  className="w-full pl-10 pr-3 py-2.5 border border-slate-700 bg-slate-800/50 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-emerald-500 text-white [&>option]:bg-slate-800"
-                >
-                  <option value="" disabled>Select category</option>
-                  {categories.map((c: any) => (
-                    <option key={c.id} value={c.id}>{c.name}</option>
-                  ))}
-                  <option value="ADD_NEW" className="text-emerald-400 font-bold">+ Add New Category</option>
-                </select>
-              </div>
+              ) : (
+                <div className="relative">
+                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <Tags size={16} className="text-slate-500" />
+                  </div>
+                  <select
+                    required
+                    value={category}
+                    onChange={handleCategoryChange}
+                    className="w-full pl-10 pr-3 py-2.5 border border-slate-700 bg-slate-800/50 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-emerald-500 text-white [&>option]:bg-slate-800"
+                  >
+                    <option value="" disabled>Select category</option>
+                    {categories.map((c: any) => (
+                      <option key={c.id} value={c.id}>{c.name}</option>
+                    ))}
+                    <option value="ADD_NEW" className="text-emerald-400 font-bold">+ Add New Category</option>
+                  </select>
+                </div>
+              )}
             </div>
             
             <div>
               <label className="block text-sm font-medium text-slate-300 mb-1">Wallet</label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <CreditCard size={16} className="text-slate-500" />
+              {isAddingWallet ? (
+                <div className="flex gap-2">
+                  <input 
+                    type="text" 
+                    autoFocus
+                    placeholder="New wallet name..."
+                    value={newWalletName}
+                    onChange={(e) => setNewWalletName(e.target.value)}
+                    onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); saveNewWallet(); } }}
+                    className="flex-1 px-3 py-2.5 border border-emerald-500 bg-slate-800/50 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-emerald-500 text-white placeholder:text-slate-500 text-sm"
+                  />
+                  <button type="button" onClick={saveNewWallet} className="px-3 py-2.5 bg-emerald-500 hover:bg-emerald-600 text-white rounded-lg transition-colors text-sm font-medium">
+                    Add
+                  </button>
+                  <button type="button" onClick={() => setIsAddingWallet(false)} className="px-3 py-2.5 bg-slate-700 hover:bg-slate-600 text-white rounded-lg transition-colors flex items-center justify-center">
+                    <X size={16} />
+                  </button>
                 </div>
-                <select
-                  required
-                  value={wallet}
-                  onChange={handleWalletChange}
-                  className="w-full pl-10 pr-3 py-2.5 border border-slate-700 bg-slate-800/50 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-emerald-500 text-white [&>option]:bg-slate-800"
-                >
-                  <option value="" disabled>Select wallet</option>
-                  {wallets.map((w: any) => (
-                    <option key={w.id} value={w.id}>{w.name}</option>
-                  ))}
-                  <option value="ADD_NEW" className="text-emerald-400 font-bold">+ Add New Wallet</option>
-                </select>
-              </div>
+              ) : (
+                <div className="relative">
+                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <CreditCard size={16} className="text-slate-500" />
+                  </div>
+                  <select
+                    required
+                    value={wallet}
+                    onChange={handleWalletChange}
+                    className="w-full pl-10 pr-3 py-2.5 border border-slate-700 bg-slate-800/50 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-emerald-500 text-white [&>option]:bg-slate-800"
+                  >
+                    <option value="" disabled>Select wallet</option>
+                    {wallets.map((w: any) => (
+                      <option key={w.id} value={w.id}>{w.name}</option>
+                    ))}
+                    <option value="ADD_NEW" className="text-emerald-400 font-bold">+ Add New Wallet</option>
+                  </select>
+                </div>
+              )}
             </div>
           </div>
 
