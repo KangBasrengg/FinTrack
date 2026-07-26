@@ -37,13 +37,13 @@ export default function CobeGlobe() {
         { location: [40.7128, -74.0060], size: 0.05 }, // NY
         { location: [51.5072, 0.1276], size: 0.05 }, // London
       ],
-      onRender: (state) => {
+      onRender: (state: Record<string, any>) => {
         state.phi = phi;
         phi += 0.005;
         state.width = width * 2;
         state.height = width * 2;
       }
-    });
+    } as any);
     
     return () => {
       globe.destroy();
