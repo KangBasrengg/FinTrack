@@ -51,9 +51,7 @@ export default function Sidebar({ isOpen = true }: SidebarProps) {
     }`}>
       <div className={`h-16 flex items-center px-6 border-b ${darkMode ? 'border-slate-800/50' : 'border-slate-200'}`}>
         <div className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded bg-emerald-500 flex items-center justify-center">
-            <span className="text-white font-bold text-xl">F</span>
-          </div>
+          <img src="/FinTrack.webp" alt="FinTrack Logo" className="w-8 h-8 object-contain rounded" />
           <span className={`font-semibold text-lg tracking-wide ${darkMode ? 'text-white' : 'text-slate-900'}`}>FinTrack</span>
         </div>
       </div>

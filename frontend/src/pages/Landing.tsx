@@ -27,9 +27,7 @@ export default function Landing() {
       {/* Navbar */}
       <nav className="relative z-10 flex justify-between items-center px-8 py-6 max-w-7xl mx-auto">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-400 to-emerald-600 flex items-center justify-center shadow-lg shadow-emerald-500/20">
-            <span className="text-white font-bold text-2xl">F</span>
-          </div>
+          <img src="/FinTrack.webp" alt="FinTrack Logo" className="w-10 h-10 object-contain rounded-xl shadow-lg shadow-emerald-500/10" />
           <span className="text-white font-bold text-2xl tracking-tight">FinTrack</span>
         </div>
         <div className="flex gap-4 items-center">
@@ -102,9 +100,7 @@ export default function Landing() {
             {/* Sidebar */}
             <div className="w-64 bg-slate-900 text-slate-300 hidden md:flex flex-col border-r border-slate-200 shrink-0">
               <div className="h-16 flex items-center px-6 border-b border-slate-800">
-                <div className="w-8 h-8 rounded bg-emerald-500 flex items-center justify-center mr-2">
-                  <span className="text-white font-bold">F</span>
-                </div>
+                <img src="/FinTrack.webp" alt="FinTrack Logo" className="w-8 h-8 object-contain rounded mr-2" />
                 <span className="text-white font-semibold tracking-wide">FinTrack</span>
               </div>
               <div className="p-4 space-y-2 text-sm mt-4">

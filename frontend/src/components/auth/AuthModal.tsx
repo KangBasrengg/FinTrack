@@ -65,9 +65,7 @@ export default function AuthModal({ isOpen, onClose, defaultMode = 'login' }: Au
 
         <div className="p-8">
           <div className="flex justify-center mb-6">
-            <div className="w-12 h-12 rounded-xl bg-emerald-500 flex items-center justify-center shadow-lg shadow-emerald-500/30">
-              <span className="text-white font-bold text-3xl">F</span>
-            </div>
+            <img src="/FinTrack.webp" alt="FinTrack Logo" className="w-14 h-14 object-contain rounded-xl shadow-lg shadow-emerald-500/20" />
           </div>
 
           <h2 className="text-center text-2xl font-bold text-white">
