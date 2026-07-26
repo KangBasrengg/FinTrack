@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { ArrowRight, ShieldCheck, Zap, PieChart, LayoutDashboard, ArrowRightLeft, Wallet, Tags, TrendingUp, Activity, Bell, User, CheckCircle2, X } from 'lucide-react';
 import AuthModal from '../components/auth/AuthModal';
 import { useNavigate } from 'react-router-dom';
+import Hero3D from '../components/Hero3D';
 
 export default function Landing() {
   const [isAuthOpen, setIsAuthOpen] = useState(false);
@@ -41,29 +42,47 @@ export default function Landing() {
         </div>
       </nav>
 
+      <style>{`
+        @keyframes float-image {
+          0% { transform: translateY(0px) rotate(2deg); }
+          50% { transform: translateY(-15px) rotate(-1deg); }
+          100% { transform: translateY(0px) rotate(2deg); }
+        }
+        .animate-float {
+          animation: float-image 6s ease-in-out infinite;
+        }
+      `}</style>
+      
       {/* Hero Section */}
-      <section className="relative z-10 px-8 pt-24 pb-16 max-w-7xl mx-auto text-center">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-800/50 border border-slate-700 text-emerald-400 text-sm font-medium mb-8 backdrop-blur-sm">
-          <span className="flex h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span>
-          The New Standard of Personal Finance
+      <section className="relative z-10 px-8 pt-24 pb-16 max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-12">
+        <div className="flex-1 text-left relative z-20">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-800/50 border border-slate-700 text-emerald-400 text-sm font-medium mb-8 backdrop-blur-sm shadow-sm">
+            <span className="flex h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span>
+            The New Standard of Personal Finance
+          </div>
+          
+          <h1 className="text-5xl md:text-6xl lg:text-7xl font-extrabold text-white tracking-tighter leading-[1.1]">
+            Wealth Management, <br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-400 to-cyan-500">
+              Simplified.
+            </span>
+          </h1>
+          
+          <p className="mt-6 text-lg md:text-xl text-slate-400 max-w-xl leading-relaxed">
+            FinTrack adalah platform kelas enterprise untuk melacak arus kas Anda secara real-time. Dirancang untuk profesional yang menghargai akurasi, kecepatan, dan privasi.
+          </p>
+          
+          <div className="mt-8 flex flex-col sm:flex-row justify-start gap-4">
+            <button onClick={() => openAuth('register')} className="px-8 py-4 bg-emerald-500 hover:bg-emerald-600 text-white font-semibold rounded-full transition-all shadow-[0_0_40px_-10px_rgba(16,185,129,0.5)] flex items-center justify-center gap-2 text-lg group w-full sm:w-auto">
+              Start Tracking Free 
+              <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
+            </button>
+          </div>
         </div>
-        
-        <h1 className="text-5xl md:text-7xl lg:text-8xl font-extrabold text-white tracking-tighter leading-[1.1]">
-          Wealth Management, <br />
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-400 to-cyan-500">
-            Simplified.
-          </span>
-        </h1>
-        
-        <p className="mt-8 text-lg md:text-xl text-slate-400 max-w-2xl mx-auto leading-relaxed">
-          FinTrack adalah platform kelas enterprise untuk melacak arus kas Anda secara real-time. Dirancang untuk profesional yang menghargai akurasi, kecepatan, dan privasi.
-        </p>
-        
-        <div className="mt-10 flex flex-col sm:flex-row justify-center gap-4">
-          <button onClick={() => openAuth('register')} className="px-8 py-4 bg-emerald-500 hover:bg-emerald-600 text-white font-semibold rounded-full transition-all shadow-[0_0_40px_-10px_rgba(16,185,129,0.5)] flex items-center justify-center gap-2 text-lg group">
-            Start Tracking Free 
-            <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
-          </button>
+
+        {/* Real 3D Interactive & Scroll-Animated Visuals Area */}
+        <div className="flex-1 relative w-full min-h-[400px] lg:min-h-[600px] z-10">
+          <Hero3D />
         </div>
       </section>
 
